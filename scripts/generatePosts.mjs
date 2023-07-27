@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from "url";
+import matter from "gray-matter";
 
 dotenv.config();
 
@@ -19,14 +20,40 @@ async function run() {
   const { notes } = await fetch(apiUrl).then((res) => res.json());
 
   // save posts as markdown file
-  await Promise.all(notes.map(async (post) => {
+  const posts = await Promise.all(notes.map(async (post) => {
     const fullContent = await fetch(`https://hackmd.io/${post.id}/download`).then((res) => res.text());
-    fs.writeFileSync(path.join(postsDir, `${post.shortId}.md`), fullContent, 'utf8');
+    // strip out the frontmatter
+    const { content, data } = matter(fullContent);
+    const filePath = path.join(postsDir, `${post.shortId}.md`);
+
+    return {
+      ...post,
+      filePath,
+      content,
+      data,
+    };
   }));
 
-  const indexContent = generateIndex(notes);
-  console.log(indexContent);
+  // generate gemtext
+  const getDate = (post) => {
+    let rawDate = post.data?.date || post.publishedAt || post.createdAt
 
+    return new Date(rawDate).valueOf()
+  }
+
+  const sortedPosts = posts.sort((a, b) => {
+    return getDate(b) - getDate(a)
+  })
+
+  sortedPosts.forEach((post) => {
+    fs.unlinkSync(post.filePath);
+    fs.writeFileSync(post.filePath, post.content, 'utf8');
+  });
+
+  const indexContent = generateIndex(sortedPosts);
+  const indexFilePath = path.join(outputDir, `index.gmi`);
+
+  fs.unlinkSync(indexFilePath);
   fs.writeFileSync(path.join(outputDir, `index.gmi`), indexContent, 'utf8');
 }
 
