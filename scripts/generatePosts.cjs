@@ -1,14 +1,10 @@
-import fetch from "node-fetch";
-import dotenv from "dotenv";
-import path from 'path'
-import fs from 'fs'
-import { fileURLToPath } from "url";
-import matter from "gray-matter";
+const fetch = require("node-fetch");
+const dotenv = require("dotenv");
+const path = require('path')
+const fs = require('fs')
+const matter = require("gray-matter");
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const postsDir = path.join(__dirname, "../posts");
 const outputDir = path.join(__dirname, "../output");

@@ -1,7 +1,6 @@
-import { execSync } from "child_process";
-import { fileURLToPath } from "url";
-import fg from "fast-glob";
-import path from "path";
+const { execSync } = require("child_process");
+const fg = require("fast-glob");
+const path = require("path");
 
 try {
   execSync("gemgen -v", { stdio: "ignore" });
@@ -9,9 +8,6 @@ try {
   console.error("gemgen executable is not installed");
   process.exit(1);
 }
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const postsDir = path.join(__dirname, "../posts");
 const outputDir = path.join(__dirname, "../output");
