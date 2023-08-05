@@ -15,12 +15,15 @@ primary_region = "sin"
   auto_start_machines = true
   processes = ["app"]
 
-[[services]]
-  internal_port = 443
-  protocol = "tcp"
-  auto_stop_machines = true
-  auto_start_machines = true
-  processes = ["app"]
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+    force_https = false
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 443
 
 # [http_service]
 #   internal_port = 80
