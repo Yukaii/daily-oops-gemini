@@ -16,5 +16,8 @@
     "gray-matter": "^4.0.3",
     "greenlock-express": "v4",
     "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.2"
   }
 }
