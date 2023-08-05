@@ -23,15 +23,6 @@ require("greenlock-express")
         httpServer1.address()
       );
     });
-
-    const httpServer2 = glx.httpServer();
-    httpServer2.listen(443, "0.0.0.0", () => {
-        console.log(
-            "Listening for ACME tls-alpn-01 challenges and serve app on",
-            httpServer2.address()
-        );
-        }
-    );
   });
 // .ready(glx => {
 //     console.log(glx);
