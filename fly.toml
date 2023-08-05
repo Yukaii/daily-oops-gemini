@@ -9,26 +9,18 @@ primary_region = "sin"
 [build]
 
 [[services]]
-  internal_port = 80
+  internal_port = 8080
   protocol = "tcp"
   auto_stop_machines = true
   auto_start_machines = true
   processes = ["app"]
 
-
   [[services.ports]]
-    handlers = ["http"]
+    handlers = ["proxy_proto"]
     port = 80
     force_https = false
 
   [[services.ports]]
-    handlers = ["http"]
+  handlers = ["proxy_proto"]
     port = 443
-
-# [http_service]
-#   internal_port = 80
-#   force_https = false
-#   auto_stop_machines = true
-#   auto_start_machines = true
-#   min_machines_running = 0
-#   processes = ["app"]
+    force_https = false
