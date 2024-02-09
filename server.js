@@ -16,7 +16,11 @@ require("greenlock-express")
     cluster: false,
   })
   .ready((glx) => {
-    const httpServer1 = glx.httpServer();
+    const httpServer1 = glx.httpServer(null, (req, res) => {
+      console.log(req);
+      res.end("Hello, Encrypted World!");
+    });
+
     httpServer1.listen(8080, "0.0.0.0", () => {
       console.log(
         "Listening for ACME http-01 challenges on",

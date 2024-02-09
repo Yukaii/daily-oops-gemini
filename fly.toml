@@ -10,7 +10,7 @@ primary_region = "sin"
 
 [[services]]
   internal_port = 8080
-  protocol = "tcp"
+  protocol = "http"
   auto_stop_machines = true
   auto_start_machines = true
   processes = ["app"]
@@ -21,6 +21,6 @@ primary_region = "sin"
     force_https = false
 
   [[services.ports]]
-  handlers = ["proxy_proto"]
+    handlers = ["proxy_proto"]
     port = 443
     force_https = false
