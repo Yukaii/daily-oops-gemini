@@ -1,6 +1,7 @@
-const { execSync } = require("child_process");
-const fg = require("fast-glob");
-const path = require("path");
+import { execSync } from "child_process";
+import fg from "fast-glob";
+import path from "path"
+  import { URL } from 'node:url'
 
 try {
   execSync("gemgen -v", { stdio: "ignore" });
@@ -9,6 +10,7 @@ try {
   process.exit(1);
 }
 
+const __dirname = new URL('.', import.meta.url).pathname;
 const postsDir = path.join(__dirname, "../posts");
 const outputDir = path.join(__dirname, "../output");
 

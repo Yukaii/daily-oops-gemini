@@ -1,11 +1,14 @@
-const fetch = require("node-fetch");
-const dotenv = require("dotenv");
-const path = require('path')
-const fs = require('fs')
-const matter = require("gray-matter");
+import fetch from "node-fetch"
+import dotenv from "dotenv"
+import path from 'path'
+import fs from 'fs'
+import matter from "gray-matter"
+import { URL } from 'node:url'
 
 dotenv.config();
 
+const __dirname = new URL('.', import.meta.url).pathname;
+console.log(__dirname)
 const postsDir = path.join(__dirname, "../posts");
 const outputDir = path.join(__dirname, "../output");
 
@@ -42,7 +45,7 @@ async function run() {
   })
 
   sortedPosts.forEach((post) => {
-    fs.unlinkSync(post.filePath);
+    // fs.unlinkSync(post.filePath);
     fs.writeFileSync(post.filePath, post.content, 'utf8');
   });
 
