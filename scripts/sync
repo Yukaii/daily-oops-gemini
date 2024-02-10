@@ -1,0 +1,3 @@
+# /usr/bin/env sh
+
+aws s3 sync output s3://dailyoops-gemini/
