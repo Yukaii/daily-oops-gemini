@@ -43,7 +43,7 @@ RUN set -ex && \
     chmod +x /usr/local/bin/agate
 
 # setup s3fs configs
-RUN echo "s3fs#${BUCKET_NAME} ${OPERATOR_HOME}/s3_bucket fuse _netdev,allow_other 0 0" >> /etc/fstab
+RUN echo "s3fs#${BUCKET_NAME} ${OPERATOR_HOME}/s3_bucket fuse _netdev,allow_other,nonempty 0 0" >> /etc/fstab
 # RUN echo "s3fs ${BUCKET_NAME} ${OPERATOR_HOME}/s3_bucket fuse _netdev,allow_other,nonempty,umask=000,uid=${OPERATOR_UID},gid=${OPERATOR_UID},passwd_file=${OPERATOR_HOME}/.s3fs-creds,use_cache=/tmp 0 0" >> /etc/fstab
 
 RUN sed -i '/user_allow_other/s/^#//g' /etc/fuse.conf
@@ -57,16 +57,22 @@ RUN touch /etc/passwd-s3fs && \
 RUN echo "${OPERATOR_USER}:${OPERATOR_USER}" | chpasswd && adduser "${OPERATOR_USER}" sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+# Create the 'fuse' group if it doesn't already exist
+RUN getent group fuse || groupadd fuse
+RUN usermod -aG fuse ${OPERATOR_USER}
+RUN gpasswd -a ${OPERATOR_USER} fuse
+
 # Set our user to the operator user
 USER ${OPERATOR_USER}
 WORKDIR ${OPERATOR_HOME}
 
 RUN printf '#!/usr/bin/env bash  \n\
+sudo chmod g+rw /dev/fuse \n\
 echo ${ACCESS_KEY_ID}:${SECRET_ACCESS_KEY} > /etc/passwd-s3fs \n\
 chmod 600 /etc/passwd-s3fs \n\
 mkdir ${OPERATOR_HOME}/s3_bucket \n\
-mount -a \n\
-agate --content ${OPERATOR_HOME}/s3_bucket --hostname ${HOSTNAME} --addr 0.0.0.0:1965 --lang=${LANG} \
+sudo mount -a \n\
+sudo agate --content ${OPERATOR_HOME}/s3_bucket --hostname ${HOSTNAME} --addr 0.0.0.0:1965 --lang=${LANG} \
 ' >> ${OPERATOR_HOME}/entrypoint.sh
 
 RUN chmod 700 ${OPERATOR_HOME}/entrypoint.sh
