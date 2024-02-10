@@ -9,6 +9,11 @@ ARG OPERATOR_HOME="/home/op"
 ARG OPERATOR_USER="op"
 ARG OPERATOR_UID="50000"
 ARG BUCKET_NAME=""
+# Define build-time architecture argument
+ARG TARGETARCH
+
+# Set the default download URL based on the architecture
+ARG AGATE_DOWNLOAD_URL
 
 
 # Add environment variables based on arguments
@@ -24,7 +29,15 @@ RUN useradd -ms /bin/bash -d ${OPERATOR_HOME} --uid ${OPERATOR_UID} ${OPERATOR_U
 RUN set -ex && \
     apt-get update && \
     apt-get install -y s3fs wget gzip sudo && \
-    wget https://github.com/mbrubeck/agate/releases/download/v3.3.4/agate.aarch64-unknown-linux-gnu.gz -O /tmp/agate.gz && \
+    if [ "$TARGETARCH" = "amd64" ]; then \
+      AGATE_DOWNLOAD_URL="https://github.com/mbrubeck/agate/releases/download/v3.3.4/agate.x86_64-unknown-linux-gnu.gz"; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+      AGATE_DOWNLOAD_URL="https://github.com/mbrubeck/agate/releases/download/v3.3.4/agate.aarch64-unknown-linux-gnu.gz"; \
+    else \
+      echo "Unsupported architecture: $TARGETARCH"; \
+      exit 1; \
+    fi && \
+    wget "$AGATE_DOWNLOAD_URL" -O /tmp/agate.gz && \
     gzip -d /tmp/agate.gz && \
     mv /tmp/agate /usr/local/bin/agate && \
     chmod +x /usr/local/bin/agate

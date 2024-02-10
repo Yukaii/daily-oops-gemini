@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for gm-certbot on 2023-08-05T20:10:49+08:00
+# fly.toml app configuration file generated for dailyoops-gemini-mirror on 2024-02-10T21:57:56+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "dailyoops-gemini-mirror"
-primary_region = "sin"
+app = 'dailyoops-gemini-mirror'
+primary_region = 'sin'
 
 [build]
 
@@ -12,8 +12,13 @@ primary_region = "sin"
 BUCKET_NAME="dailyoops-gemini"
 
 [[services]]
+  protocol = 'tcp'
   internal_port = 1965
-  protocol = "tcp"
 
-  [[services.ports]]
-    port = "1965"
+[[services.ports]]
+    port = 1965
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024
