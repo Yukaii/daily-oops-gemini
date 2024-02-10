@@ -22,3 +22,9 @@ Ref: https://space.matthewphillips.info/posts/flyio-gemini-setup/
 * Host with go-gimini or any directory based gemini hoster
 * Build the docker file with target s3 bucket mounted
 * Whenever my blog is updated. Just trigger the gmi file generation and sync all of them to s3 bucket again. 
+
+
+```bash
+./agate --content output --hostname gemini.yukai.dev --addr 0.0.0.0:1965 --lang=ZH-tw
+```
+
