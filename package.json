@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "run": "node generatePosts.mjs && node ./scripts/convertMarkdown.mjs && sync"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Yukai Huang",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.3.1",
     "fast-glob": "^3.3.1",
