@@ -80,9 +80,6 @@ jobs:
       - name: Build hugo
         run: hugo --minify
 
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
-
       - name: Deploy
         run: |
           cd ${{ github.workspace }}
