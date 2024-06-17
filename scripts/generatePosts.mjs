@@ -57,7 +57,7 @@ async function run() {
 }
 
 function generateIndex(posts) {
-  const linkes = posts
+  const links = posts
     .map((post) => {
       return `=> ./${post.shortId}.gmi ${post.title}`;
     })
@@ -65,7 +65,7 @@ function generateIndex(posts) {
 
   return `# DailyOops
 
-${linkes}
+${links}
 `;
 }
 
