@@ -1,0 +1,65 @@
+name: GitHub Pages
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.119.0'
+          # extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - uses: actions/setup-go@v5
+      - name: Setup and install hut CLI
+        run: |
+          git clone https://git.sr.ht/~xenrox/hut /tmp/hut
+          cd /tmp/hut
+          make && sudo make install
+          # setup hut config
+          echo > $XDG_CONFIG_HOME/hut/config <<EOF
+            instance "sr.ht" {
+              access-token "$HUT_ACCESS_TOKEN"
+            }
+          EOF
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Deploy
+        run: ./scripts/hut-deploy
