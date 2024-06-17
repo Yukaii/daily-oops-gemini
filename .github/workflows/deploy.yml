@@ -7,8 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,7 +35,6 @@ jobs:
               access-token "$HUT_ACCESS_TOKEN"
             }
           EOF
-          hut init
 
       - name: install gemgen
         run: |
@@ -76,6 +73,9 @@ jobs:
 
       - name: Build hugo
         run: hugo --minify
+
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
 
       - name: Deploy
         run: |
