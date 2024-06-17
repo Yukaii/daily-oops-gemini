@@ -31,6 +31,7 @@ jobs:
           cd /tmp/hut
           make && sudo make install
           # setup hut config
+          mkdir -p $XDG_CONFIG_HOME/hut
           echo > $XDG_CONFIG_HOME/hut/config <<EOF
             instance "sr.ht" {
               access-token "$HUT_ACCESS_TOKEN"
