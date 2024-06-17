@@ -37,6 +37,7 @@ jobs:
               access-token "$HUT_ACCESS_TOKEN"
             }
           EOF
+          hut init
 
       - name: install gemgen
         run: |
@@ -80,4 +81,3 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           ./scripts/hut-publish
-          hut init
