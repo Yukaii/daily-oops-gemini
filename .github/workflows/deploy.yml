@@ -78,6 +78,6 @@ jobs:
 
       - name: Deploy
         run: |
-          cd ${{ github.workspace }}/scripts
-          ls -alh
-          ./hut-publish
+          cd ${{ github.workspace }}
+          ./scripts/hut-publish
+          hut init
