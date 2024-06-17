@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+tar -C output -cvz . > gemini.tar.gz
+tar -C public -cvz . > https.tar.gz
+
+hut pages publish -d txt.yukai.dev gemini.tar.gz -p gemini
+hut pages publish -d txt.yukai.dev https.tar.gz
