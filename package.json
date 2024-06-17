@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "node generatePosts.mjs && node ./scripts/convertMarkdown.mjs && sync"
+    "run": "node ./scripts/generatePosts.mjs && node ./scripts/convertMarkdown.mjs && sync"
   },
   "author": "Yukai Huang",
   "license": "MIT",
