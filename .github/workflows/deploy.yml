@@ -28,7 +28,7 @@ jobs:
           mkdir -p $XDG_CONFIG_HOME/hut
           HUT_CONFIG=$(cat << EOF
             instance "sr.ht" {
-              access-token "$HUT_ACCESS_TOKEN"
+              access-token "{{ env.HUT_ACCESS_TOKEN }}"
             }
           EOF
           )
