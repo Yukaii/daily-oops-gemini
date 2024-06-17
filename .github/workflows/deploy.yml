@@ -21,10 +21,10 @@ jobs:
           hugo-version: '0.119.0'
           # extended: true
 
-      - name: Build
-        run: hugo --minify
-
       - uses: actions/setup-go@v5
+      - name: install missing dependencies
+        run: |
+          sudo apt install -y scdoc
       - name: Setup and install hut CLI
         run: |
           git clone https://git.sr.ht/~xenrox/hut /tmp/hut
@@ -60,6 +60,13 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Build hugo
+        run: hugo --minify
 
       - name: Deploy
         run: ./scripts/hut-deploy
