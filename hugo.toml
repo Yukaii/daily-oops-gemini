@@ -1,1 +1,4 @@
-theme = 'hugo-theme-console'
+theme = 'sk1'
+title   = "Daily Oops"
+
+paginate = 200

@@ -4,12 +4,15 @@ import path from 'path'
 import fs from 'fs'
 import matter from "gray-matter"
 import { URL } from 'node:url'
+import markdownIt from 'markdown-it'
 
 dotenv.config();
 
 const __dirname = new URL('.', import.meta.url).pathname;
 const postsDir = path.join(__dirname, "../content/posts");
 const outputDir = path.join(__dirname, "../output");
+
+const md = markdownIt()
 
 process.env.HACKMD_PROFILE;
 const apiUrl = `https://hackmd.io/api/@${process.env.HACKMD_PROFILE}/overview`;
@@ -43,13 +46,32 @@ async function run() {
     return getDate(b) - getDate(a)
   })
 
+  const getTitle = (post) => {
+    const tokens = md.parse(post.content, {})
+
+    for (const i = 0; i < tokens.length; i++) {
+      const token = tokens[i]
+      const nextContent = tokens[i + 1]?.content
+      if (token.tag === 'h1') {
+        return nextContent
+      }
+    }
+
+    return 'Untitled'
+  }
+
   sortedPosts.forEach((post) => {
-    // fs.unlinkSync(post.filePath);
-    fs.writeFileSync(post.filePath, post.content, 'utf8');
+    const content = `
+---
+date: ${new Date(getDate(post)).toISOString()}
+title: ${getTitle(post)}
+---
+${post.content}`
+    fs.writeFileSync(post.filePath, content, 'utf8');
   });
 
   fs.writeFileSync(path.join(outputDir, `index.gmi`), generateIndex(sortedPosts), 'utf8');
-  fs.writeFileSync(path.join(postsDir, `index.md`), generateIndexMd(sortedPosts), 'utf8');
+  fs.writeFileSync(path.join(postsDir, `_index.md`), generateIndexMd(sortedPosts), 'utf8');
 }
 
 function generateIndex(posts) {
