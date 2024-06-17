@@ -40,7 +40,7 @@ jobs:
 
       - name: install gemgen
         run: |
-          git clone https://sr.ht/~kota/gemgen/ /tmp/gemgen
+          git clone https://git.sr.ht/~kota/gemgen /tmp/gemgen
           cd /tmp/gemgen
           sudo make install
 
