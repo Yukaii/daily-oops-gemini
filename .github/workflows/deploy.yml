@@ -60,6 +60,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - name: install gemgen
+        run: gem install gemgen
+
       - name: Install dependencies
         run: pnpm install
 
