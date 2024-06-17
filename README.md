@@ -1,6 +1,6 @@
 # My blog mirroing with gemini protocol
 
-TLDR: go visit `gemini://txt.yukai.dev` and `https://txt.yukai.dev`
+TLDR: go visit `gemini://txt.yukai.dev` and [`https://txt.yukai.dev`](https://txt.yukai.dev)
 
 ## Demo
 
