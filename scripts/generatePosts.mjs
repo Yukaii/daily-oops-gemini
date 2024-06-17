@@ -8,8 +8,7 @@ import { URL } from 'node:url'
 dotenv.config();
 
 const __dirname = new URL('.', import.meta.url).pathname;
-console.log(__dirname)
-const postsDir = path.join(__dirname, "../posts");
+const postsDir = path.join(__dirname, "../content/posts");
 const outputDir = path.join(__dirname, "../output");
 
 process.env.HACKMD_PROFILE;
@@ -49,13 +48,8 @@ async function run() {
     fs.writeFileSync(post.filePath, post.content, 'utf8');
   });
 
-  const indexContent = generateIndex(sortedPosts);
-  const indexFilePath = path.join(outputDir, `index.gmi`);
-
-  if (fs.existsSync(indexFilePath)) {
-    fs.unlinkSync(indexFilePath);
-  }
-  fs.writeFileSync(indexFilePath, indexContent, 'utf8');
+  fs.writeFileSync(path.join(outputDir, `index.gmi`), generateIndex(sortedPosts), 'utf8');
+  fs.writeFileSync(path.join(postsDir, `index.md`), generateIndexMd(sortedPosts), 'utf8');
 }
 
 function generateIndex(posts) {
@@ -69,6 +63,19 @@ function generateIndex(posts) {
 
 ${links}
 `;
+}
+
+function generateIndexMd(posts) {
+  const links = posts
+    .map((post) => {
+      return `- [${post.title}](./${post.shortId})`;
+    })
+    .join("\n");
+
+  return `# DailyOops
+
+${links}
+`
 }
 
 run();
