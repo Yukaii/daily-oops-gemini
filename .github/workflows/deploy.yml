@@ -23,18 +23,21 @@ jobs:
       - name: install missing dependencies
         run: |
           sudo apt install -y scdoc
+      - name: create hut config string
+        run: |
+          mkdir -p $XDG_CONFIG_HOME/hut
+          HUT_CONFIG=$(cat << EOF
+            instance "sr.ht" {
+              access-token "$HUT_ACCESS_TOKEN"
+            }
+          EOF
+          )
+          echo "$HUT_CONFIG" > $XDG_CONFIG_HOME/hut/config
       - name: Setup and install hut CLI
         run: |
           git clone https://git.sr.ht/~xenrox/hut /tmp/hut
           cd /tmp/hut
           make && sudo make install
-          # setup hut config
-          mkdir -p $XDG_CONFIG_HOME/hut
-          echo > $XDG_CONFIG_HOME/hut/config <<EOF
-            instance "sr.ht" {
-              access-token "$HUT_ACCESS_TOKEN"
-            }
-          EOF
 
       - name: install gemgen
         run: |
