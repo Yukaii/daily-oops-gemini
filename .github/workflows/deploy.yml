@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    environment: production
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,7 +29,7 @@ jobs:
           mkdir -p $XDG_CONFIG_HOME/hut
           HUT_CONFIG=$(cat << EOF
             instance "sr.ht" {
-              access-token "${{ secrets.HUT_ACCESS_TOKEN }}"
+              access-token "${{ env.HUT_ACCESS_TOKEN }}"
             }
           EOF
           )
@@ -73,7 +74,7 @@ jobs:
 
       - name: Build
         env:
-          HACKMD_PROFILE: ${{ secrets.HACKMD_PROFILE }}
+          HACKMD_PROFILE: ${{ env.HACKMD_PROFILE }}
         run: pnpm run build
 
       - name: Build hugo
