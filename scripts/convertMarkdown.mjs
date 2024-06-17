@@ -11,7 +11,7 @@ try {
 }
 
 const __dirname = new URL('.', import.meta.url).pathname;
-const postsDir = path.join(__dirname, "../posts");
+const postsDir = path.join(__dirname, "../content/posts");
 const outputDir = path.join(__dirname, "../output");
 
 function run() {
