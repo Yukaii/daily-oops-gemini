@@ -38,6 +38,12 @@ jobs:
             }
           EOF
 
+      - name: install gemgen
+        run: |
+          git clone https://sr.ht/~kota/gemgen/ /tmp/gemgen
+          cd /tmp/gemgen
+          sudo make install
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
@@ -59,12 +65,6 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-      - name: install gemgen
-        run: gem install gemgen
 
       - name: Install dependencies
         run: pnpm install
