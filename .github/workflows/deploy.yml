@@ -77,4 +77,4 @@ jobs:
         run: hugo --minify
 
       - name: Deploy
-        run: ./scripts/hut-deploy
+        run: .${{ github.workspace }}/scripts/hut-deploy
