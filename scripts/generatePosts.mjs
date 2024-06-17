@@ -52,8 +52,10 @@ async function run() {
   const indexContent = generateIndex(sortedPosts);
   const indexFilePath = path.join(outputDir, `index.gmi`);
 
-  fs.unlinkSync(indexFilePath);
-  fs.writeFileSync(path.join(outputDir, `index.gmi`), indexContent, 'utf8');
+  if (fs.existsSync(indexFilePath)) {
+    fs.unlinkSync(indexFilePath);
+  }
+  fs.writeFileSync(indexFilePath, indexContent, 'utf8');
 }
 
 function generateIndex(posts) {
