@@ -72,8 +72,6 @@ jobs:
 
 
       - name: Build
-        env:
-          HACKMD_PROFILE: ${{ env.HACKMD_PROFILE }}
         run: pnpm run build
 
       - name: Build hugo
