@@ -6,6 +6,11 @@ TLDR: go visit `gemini://g.yukai.dev`
 
 https://github.com/Yukaii/daily-oops-gemini/assets/4230968/8895ec2b-a3d7-48a7-990d-0aeaa0424913
 
+## Dependencies
+
+- AWS CLI (brew install awscli)
+- gemgen (brew install gemgen)
+
 ## Tools to build this
 
 This repository contains the implementation of how I hosted my personal blog with gemini protocol as a mirror site.
