@@ -87,7 +87,7 @@ Welcome to gemini capsule of my blog.
 There is also a plain HTML version that You can use.
 
 => https://yukai.dev Daily Oops
-=> https://txtyukai.dev Daily Oops (Plain HTML version)
+=> https://txt.yukai.dev Daily Oops (Plain HTML version)
 
 ${links}
 `;
