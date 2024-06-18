@@ -1,0 +1,28 @@
+{{define "main"}}
+
+Here's the plain html version of my blog <a href="https://yukai.dev">Daily Oops</a>.
+
+You can even connect with gemini protocol if you want
+
+<a href="gemini://txt.yukai.dev"><code>gemini://txt.yukai.dev<code></a>
+
+<!--$paginator-->
+{{$p := .Pages}}
+{{if .IsHome}}
+{{$p = where site.RegularPages "Type" "in" site.Params.mainSections}}
+{{else if eq .Kind "taxonomy"}}
+{{$p = $p.ByTitle}}
+{{end}}
+{{$paginator := .Paginate $p}}
+
+<!--list-->
+<ul>
+	{{range $paginator.Pages}}
+	<li>{{.Date.Format "2006-01-02"}} | <a href="{{.RelPermalink}}">{{.Title}}</a></li>
+	{{end}}
+</ul>
+
+<!--pagination-->
+{{template "_internal/pagination.html" .}}
+
+{{end}}
