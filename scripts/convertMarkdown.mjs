@@ -1,7 +1,7 @@
 import { execSync } from "child_process";
 import fg from "fast-glob";
 import path from "path"
-  import { URL } from 'node:url'
+import { URL } from 'node:url'
 
 try {
   execSync("gemgen -v", { stdio: "ignore" });
